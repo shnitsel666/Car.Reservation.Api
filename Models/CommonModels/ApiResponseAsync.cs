@@ -14,7 +14,7 @@
 
         public T Data { get; set; }
 
-        public static async Task<ApiResponseAsync<T>> DoMethodAsync(Func<ApiResponseAsync<T>, Task<ApiResponseAsync<T>>> action)
+        public static async Task<ApiResponseAsync<T>> DoMethodAsync(Func<ApiResponseAsync<T>, Task<ApiResponseAsync<T>>> action, Action<Exception>? errorHandler = default)
         {
             ApiResponseAsync<T> result = new();
             try
@@ -23,6 +23,7 @@
             }
             catch (Exception e)
             {
+                errorHandler?.Invoke(e);
                 result.Code = -1;
                 result.Message = e.Message;
             }

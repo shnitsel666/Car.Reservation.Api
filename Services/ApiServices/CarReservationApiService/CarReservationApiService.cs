@@ -1,6 +1,7 @@
 ﻿namespace Car.Reservation.Api.Services.CarReservationApiService
 {
     using AutoMapper;
+    using Car.Reservation.Api.Helpers;
     using Car.Reservation.Api.Models.ApiModels;
     using Car.Reservation.Api.Models.CommonModels;
     using Car.Reservation.Api.Models.Models;
@@ -37,61 +38,74 @@
 
         #region AddCar()
         public ApiResponse<bool> AddCar(AddCarRequest addCarRequest) =>
-            ApiResponse<bool>.DoMethod(resp =>
+            ApiResponse<bool>.DoMethod(
+            resp =>
             {
                 resp.Data = _carReservationApiRepository.AddCar(addCarRequest);
-            });
+            },
+            ErrorsHandlers.OnErrorPrintConsole);
         #endregion
 
         #region UpdateCar()
         public ApiResponse<bool> UpdateCar(UpdateCarRequest updateCarRequest) =>
-            ApiResponse<bool>.DoMethod(resp =>
+            ApiResponse<bool>.DoMethod(
+            resp =>
             {
                 resp.Data = _carReservationApiRepository.UpdateCar(updateCarRequest);
-            });
+            },
+            ErrorsHandlers.OnErrorPrintConsole);
         #endregion
 
         #region RemoveCar()
         public ApiResponse<bool> RemoveCar(int carId) =>
-            ApiResponse<bool>.DoMethod(resp =>
+            ApiResponse<bool>.DoMethod(
+            resp =>
             {
                 resp.Data = _carReservationApiRepository.RemoveCar(carId);
-            });
+            },
+            ErrorsHandlers.OnErrorPrintConsole);
         #endregion
 
         #region GetCar()
         public ApiResponse<CarInfo> GetCar(int carId) =>
-            ApiResponse<CarInfo>.DoMethod(resp =>
+            ApiResponse<CarInfo>.DoMethod(
+            resp =>
             {
                 var result = _carReservationApiRepository.GetCar(carId);
                 var carInfo = _mapper.Map<CarInfo>(result);
                 resp.Data = carInfo;
-            });
+            },
+            ErrorsHandlers.OnErrorPrintConsole);
         #endregion
 
         #region GetAllCars()
         public ApiResponse<List<CarInfo>> GetAllCars() =>
-            ApiResponse<List<CarInfo>>.DoMethod(resp =>
+            ApiResponse<List<CarInfo>>.DoMethod(
+            resp =>
             {
                 var result = _carReservationApiRepository.GetAllCars();
                 var cars = _mapper.Map<List<CarInfo>>(result);
                 resp.Data = cars;
-            });
+            },
+            ErrorsHandlers.OnErrorPrintConsole);
         #endregion
 
         #region GetUserReservedCars()
         public ApiResponse<List<ReservedCarInfo>> GetUserReservedCars(int userId) =>
-            ApiResponse<List<ReservedCarInfo>>.DoMethod(resp =>
+            ApiResponse<List<ReservedCarInfo>>.DoMethod(
+            resp =>
             {
                 var result = _carReservationApiRepository.GetUserReservedCars(userId);
                 var reservedCars = _mapper.Map<List<ReservedCarInfo>>(result);
                 resp.Data = reservedCars;
-            });
+            },
+            ErrorsHandlers.OnErrorPrintConsole);
         #endregion
 
         #region ReserveCar()
         public ApiResponse<ReservedCarInfo> ReserveCar(ReserveCarRequest reserveCarRequest) =>
-            ApiResponse<ReservedCarInfo>.DoMethod(resp =>
+            ApiResponse<ReservedCarInfo>.DoMethod(
+            resp =>
             {
                 var message = _reservationService.ValidateRequest(reserveCarRequest);
                 if (string.IsNullOrEmpty(message))
@@ -107,7 +121,8 @@
                     resp.Code = 1;
                     resp.Message = message;
                 }
-            });
+            },
+            ErrorsHandlers.OnErrorPrintConsole);
         #endregion
     }
 }
