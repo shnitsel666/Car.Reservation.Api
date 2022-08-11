@@ -14,7 +14,7 @@
 
         public T Data { get; set; }
 
-        public static ApiResponse<T> DoMethod(Action<ApiResponse<T>> action)
+        public static ApiResponse<T> DoMethod(Action<ApiResponse<T>> action, Action<Exception>? errorHandler = default)
         {
             ApiResponse<T> result = new();
             try
@@ -23,6 +23,7 @@
             }
             catch (Exception e)
             {
+                errorHandler?.Invoke(e);
                 result.Code = -1;
                 result.Message = e.Message;
             }

@@ -7,6 +7,7 @@
     using Car.Reservation.Api.Services.ReservationService;
     using Car.Reservation.Api.Services.UserService;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Diagnostics.HealthChecks;
 
     public static class ServiceCollectionExtension
     {
@@ -29,6 +30,15 @@
             services.AddSingleton<ICarReservationApiService, CarReservationApiService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IReservationService, ReservationService>();
+            return services;
+        }
+
+        public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services)
+        {
+            var hcBuilder = services.AddHealthChecks();
+
+            hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
+
             return services;
         }
     }
