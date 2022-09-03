@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "Car.Reservation.Api": {
+    "Cars.Reservation.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

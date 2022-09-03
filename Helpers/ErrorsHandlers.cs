@@ -1,4 +1,4 @@
-﻿namespace Car.Reservation.Api.Helpers
+﻿namespace Cars.Reservation.Api.Helpers
 {
     public static class ErrorsHandlers
     {

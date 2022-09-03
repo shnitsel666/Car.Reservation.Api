@@ -1,7 +1,6 @@
-﻿namespace Car.Reservation.Api.Repositories
+﻿namespace Cars.Reservation.Api.Repositories
 {
     using System.Data;
-    using Microsoft.Data.SqlClient;
     using Npgsql;
 
     public class DBManager : IDBManager
@@ -13,11 +12,13 @@
 
         private int DefaultConnectionsCount { get; set; } = 0;
 
+        private readonly int DefaultConnectionsLimit = 20;
+
         public IDbConnection DefaultConnection
         {
             get
             {
-                var connection = DefaultConnections[DefaultConnectionsCount++ % 20];
+                var connection = DefaultConnections[DefaultConnectionsCount++ % DefaultConnectionsLimit];
                 if (connection.State == ConnectionState.Closed)
                 {
                     connection.Dispose();
@@ -34,7 +35,7 @@
                     return newDB;
                 }
 
-                return DefaultConnections[DefaultConnectionsCount++ % 20];
+                return DefaultConnections[DefaultConnectionsCount++ % DefaultConnectionsLimit];
             }
 
             private set
@@ -49,7 +50,7 @@
             try
             {
                 DefaultConnections = new List<IDbConnection>();
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < DefaultConnectionsLimit; i++)
                 {
                     IDbConnection db = new NpgsqlConnection(_configuration.GetConnectionString("DefaultConnection"));
                     DefaultConnections.Add(db);

@@ -1,4 +1,4 @@
-﻿namespace Car.Reservation.Api.Controllers
+﻿namespace Cars.Reservation.Api.Controllers
 {
     using System;
     using System.Net;

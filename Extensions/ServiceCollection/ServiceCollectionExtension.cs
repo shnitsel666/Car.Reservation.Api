@@ -1,11 +1,13 @@
-﻿namespace Car.Reservation.Api.Extensions.ServiceCollection
+﻿namespace Cars.Reservation.Api.Extensions.ServiceCollection
 {
-    using Car.Reservation.Api.MapperProfiles;
-    using Car.Reservation.Api.Repositories;
-    using Car.Reservation.Api.Repositories.CarReservationApiRepository;
-    using Car.Reservation.Api.Services.CarReservationApiService;
-    using Car.Reservation.Api.Services.ReservationService;
-    using Car.Reservation.Api.Services.UserService;
+    using Cars.Reservation.Api.MapperProfiles;
+    using Cars.Reservation.Api.Repositories;
+    using Cars.Reservation.Api.Repositories.CarsRepository;
+    using Cars.Reservation.Api.Repositories.CarsReservationApiRepository;
+    using Cars.Reservation.Api.Services.Application.CarsReservationApiService;
+    using Cars.Reservation.Api.Services.Domain.CarsService;
+    using Cars.Reservation.Api.Services.Domain.ReservationService;
+    using Cars.Reservation.Api.Services.Domain.UserService;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
 
@@ -13,32 +15,37 @@
     {
         public static IServiceCollection AddMapperProfiles(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(CarReservationApiProfile));
+            services.AddAutoMapper(typeof(CarsReservationApiProfile));
             return services;
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddSingleton<IDBManager, DBManager>();
-            services.AddSingleton<ICarReservationApiRepository, CarReservationApiRepository>();
+            services.AddSingleton<IReservationRepository, ReservationRepository>();
+            services.AddSingleton<ICarsRepository, CarsRepository>();
             return services;
         }
 
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        public static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
             services.AddSingleton<DBManager, DBManager>();
-            services.AddSingleton<ICarReservationApiService, CarReservationApiService>();
-            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IUsersService, UsersService>();
+            services.AddSingleton<ICarsService, CarsService>();
             services.AddSingleton<IReservationService, ReservationService>();
+            return services;
+        }
+
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {
+            services.AddSingleton<ICarsReservationApiService, CarsReservationApiService>();
             return services;
         }
 
         public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services)
         {
             var hcBuilder = services.AddHealthChecks();
-
             hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
-
             return services;
         }
     }
