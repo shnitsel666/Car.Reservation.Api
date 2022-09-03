@@ -1,15 +1,18 @@
-using Car.Reservation.Api.Extensions.ServiceCollection;
-using Car.Reservation.Api.Helpers;
+using Cars.Reservation.Api.Extensions.ServiceCollection;
+using Cars.Reservation.Api.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMapperProfiles();
 builder.Services.AddRepositories();
-builder.Services.AddServices();
+builder.Services.AddDomainServices();
+builder.Services.AddApplicationServices();
 builder.Services.AddCustomHealthCheck();
 builder.Services.AddCors(options =>
 {

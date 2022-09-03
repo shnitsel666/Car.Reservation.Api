@@ -1,4 +1,4 @@
-﻿namespace Car.Reservation.Api.Repositories
+﻿namespace Cars.Reservation.Api.Repositories
 {
     public interface IDBManager
     {

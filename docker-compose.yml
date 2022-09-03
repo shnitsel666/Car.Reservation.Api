@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  car.reservation.api:
-    image: ${DOCKER_REGISTRY-}carreservationapi
+  cars.reservation.api:
+    image: ${DOCKER_REGISTRY-}carsreservationapi
     build:
       context: .
       dockerfile: Dockerfile
@@ -46,17 +46,17 @@ services:
       - "-c"
       - "pg_stat_statements.track=all"
     environment:
-      POSTGRES_DB: "carreservation"
-      POSTGRES_USER: "carreservationadmin"
+      POSTGRES_DB: "carsreservation"
+      POSTGRES_USER: "carsreservationadmin"
       POSTGRES_PASSWORD: "12345qwertyu"
     volumes:
-      - ../2. Init Database:/docker-entrypoint-initdb.d
-      - pg_data:/var/lib/postgresql/data
+      #- ../2. Init Database:/docker-entrypoint-initdb.d
+      - ./pg_data:/var/lib/postgresql/data
       - ./db_backup:/tmp
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U carreservationadmin -d carreservation"]
+      test: ["CMD-SHELL", "pg_isready -U carsreservationadmin -d carsreservation"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -72,13 +72,14 @@ services:
 
   pgadmin:
     container_name: pgadmin.container
-    image: dpage/pgadmin4:5.7
+    image: dpage/pgadmin4:6.13
     environment:
       PGADMIN_DEFAULT_EMAIL: "crypto.shtirner@gmail.com"
       PGADMIN_DEFAULT_PASSWORD: "12345qwertyu"
       PGADMIN_CONFIG_SERVER_MODE: "False"
     volumes:
       - ./pgadmin:/var/lib/pgadmin
+      - ./db_backup:/tmp
     ports:
       - "5050:80"
     restart: unless-stopped
@@ -95,7 +96,7 @@ services:
     image: prometheuscommunity/postgres-exporter:v0.10.0
     environment:
       DATA_SOURCE_URI: "postgres:5432/habrdb?sslmode=disable"
-      DATA_SOURCE_USER: "carreservationadmin"
+      DATA_SOURCE_USER: "carsreservationadmin"
       DATA_SOURCE_PASS: "12345qwertyu"
       PG_EXPORTER_EXTEND_QUERY_PATH: "/etc/postgres_exporter/queries.yaml"
     volumes:

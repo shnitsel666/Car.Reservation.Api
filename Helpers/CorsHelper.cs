@@ -1,17 +1,16 @@
-﻿namespace Car.Reservation.Api.Helpers
+﻿namespace Cars.Reservation.Api.Helpers
 {
     public static class CorsHelper
     {
-        public static string CorsPolicyName = "corsPolicy";
+        public static readonly string CorsPolicyName = "corsPolicy";
+        public static readonly string[] OriginsConfigDefault = { "http://localhost:3000" };
 
-        public static string[] GetOrigins(string originsConfig = null)
+        public static string[] GetOrigins(string originsConfig)
         {
             string allowedHosts = originsConfig;
             if (string.IsNullOrEmpty(allowedHosts))
             {
-                List<string> origins = new();
-                origins.Add("http://localhost:3000");
-                return origins.ToArray();
+                return OriginsConfigDefault;
             }
 
             return allowedHosts.Replace(" ", string.Empty).Split(",");

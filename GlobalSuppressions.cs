@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:Do not use regions", Justification = "<Pending>", Scope = "member", Target = "~M:Car.Reservation.Api.Controllers.CarReservationApiController.#ctor")]
+[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:Do not use regions", Justification = "<Pending>", Scope = "member", Target = "~M:Cars.Reservation.Api.Controllers.ReservationController.#ctor")]
